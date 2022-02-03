@@ -1,0 +1,7 @@
+a permissionless order book DEx with no locking of funds
+
+- will allow flexibility to cancel an order by just forgetting it and locking approved funds elsewhere;
+
+- enables waiting (limit )orders on multiple pairs agains a single asset/currency=token;
+
+- more commig to boost capital efficiency of the waiting( be it for dip or top) order funds in unseen ways!
