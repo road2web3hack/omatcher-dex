@@ -20,6 +20,7 @@ module.exports = {
   networks: {
     mumbai: {
       url: process.env.MUMBAI_URL || "https://rpc-mumbai.matic.today",
+      // etherscan: "https://api-testnet.polygonscan.com/", // look into for `hh verify ..`=@todo
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [maticPrivateKey],
     },
