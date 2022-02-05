@@ -32,6 +32,7 @@ contract MarketPair {
         tokenA = IERC20( tokenAcontractAddress); tokenB = IERC20( tokenBcontractAddress);
         // set fee to a constant rn, will become a parameter when we have pair factory..:
         fee = 10; // 0.1 % represented as 10/10'000
+        deployer = msg.sender; //first phase that is the one to be allowed to claim any fees
     }
 
     function getTopBuy() public view returns (Order memory) { // much dummy yet
@@ -48,7 +49,8 @@ contract MarketPair {
     function addBuyOrder(uint priceToBuyFor, uint amountToObtain) public { //t, I'll check bs notes
         // See if the funds to put for trade are readily available, now fail, later we can optimize 
         //  so that only in a set range around mid price there is such requirement
-        // require(checkAllowance(tokenB, amountToObtain), "sender has not enough tokenB to pay with");
+        uint amountToBeSold = priceToBuyFor * amountToObtain; // @todo work-out what to used for price instead of uint
+        require( tokenB.allowance(msg.sender, address(this)) >= amountToBeSold, "sender has not enough tokenB to pay with" );
         buyOrdersBook.push( Order(priceToBuyFor, amountToObtain) );
     }
 
@@ -56,8 +58,7 @@ contract MarketPair {
         IERC20 token, // address tokenAddr,
         uint256 amountToBeSold
     ) internal view returns( bool ) {
-        // console.log("msg.sender to checkAllowance:", msg.sender);
-        // return IERC20(tokenAddr).allowance(msg.sender, address(this)) >= amountToBeSold;
+        console.log("msg.sender to checkAllowance:", msg.sender);
         return token.allowance(msg.sender, address(this)) >= amountToBeSold;
     }
 }

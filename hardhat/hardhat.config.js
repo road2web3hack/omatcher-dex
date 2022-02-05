@@ -2,6 +2,7 @@ require("dotenv").config();
 
 require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-waffle");
+require('hardhat-dependency-compiler');//!
 require("hardhat-gas-reporter");
 require("solidity-coverage");
 
@@ -47,5 +48,9 @@ module.exports = {
         polygon: process.env.POLYGONSCAN_API_KEY,
         polygonMumbai: process.env.POLYGONSCAN_API_KEY
     }
-  }
+  },
+  dependencyCompiler: {
+    // Enables to call .symbol() and .decimals() in scripts.
+    paths: ['@openzeppelin/contracts/token/ERC20/ERC20.sol'],
+  },
 };
