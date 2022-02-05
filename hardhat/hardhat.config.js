@@ -20,7 +20,6 @@ module.exports = {
   networks: {
     mumbai: {
       url: process.env.MUMBAI_URL || "https://rpc-mumbai.matic.today",
-      // etherscan: "https://api-testnet.polygonscan.com/", // look into for `hh verify ..`=@todo
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [maticPrivateKey],
     },
@@ -34,7 +33,13 @@ module.exports = {
     enabled: process.env.REPORT_GAS !== undefined,
     currency: "USD",
   },
+  // etherscan: "https://api-testnet.polygonscan.com/", // look into for `hh verify ..`=@todo
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
-  },
+    apiKey: {
+        // polygon settings, see https://hardhat.org/plugins/nomiclabs-hardhat-etherscan.html#multiple-api-keys-and-alternative-block-explorers
+        // Created a key in https://polygonscan.com/myapikey , but still struggling to get `hh verify ` run correctly
+        polygon: process.env.POLYGONSCAN_API_KEY,
+        polygonMumbai: process.env.POLYGONSCAN_API_KEY
+    }
+  }
 };

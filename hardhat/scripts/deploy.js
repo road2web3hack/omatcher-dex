@@ -16,7 +16,7 @@ async function main() {
 
   // We get the contract to deploy
   const SC = await hre.ethers.getContractFactory(FirstContract);
-  const sc = await SC.deploy("Link", "TST"); // will be addrses
+  const sc = await SC.deploy("0x326c977e6efc84e512bb9c30f76e30c160ed06fb", "0x2d7882bedcbfddce29ba99965dd3cdf7fcb10a1e") //("Link", "TST") addrses on Mumbai
 
   await sc.deployed();
 
