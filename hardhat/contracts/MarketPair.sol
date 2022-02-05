@@ -10,7 +10,7 @@ interface IERC20 {
 import "hardhat/console.sol";
 
 // This is a quick iteration for the generic pair of (2 )tokens to have queues of waiting orders at given price..:
-contract LinkTstPair {
+contract MarketPair {
     IERC20 tokenA; IERC20 tokenB; // callable token contract addresses in fact
     // and let's have this nomenclature: *buy* action means putting in tokenB striving for tokenA;
     //                                   *sell* means putting tokenA away in exchange for some tokenB.
@@ -39,19 +39,19 @@ contract LinkTstPair {
 
     // todo: 100% make this payable and grab the reserve ETH/matic/native sum for case of the order becomming unfullfillable.
     // dummy fn to buy some Link for lower price than lowest sell:
-    function addBuyOrder(Order memory o) public { // will likely get the lower field to put after or smt, I'll check bs notes
+    // function addBuyOrder(Order memory o) public { // will likely get the lower field to put after or smt, I'll check bs notes
+    function addBuyOrder(uint priceToBuyFor, uint amountToObtain) public { //t, I'll check bs notes
         // See if the funds to put for trade are readily available, now fail, later we can optimize 
         //  so that only in a set range around mid price there is such requirement
-        require(checkAllowance(tokenB, o.amount), "sender has not enough tokenB to pay with");
-        buyOrdersBook[0]=o;// buyOrdersBook.add(o);//dumbness RN
+        require(checkAllowance(tokenB, amountToObtain), "sender has not enough tokenB to pay with");
+        buyOrdersBook[0]=Order(priceToBuyFor, amountToObtain);// buyOrdersBook.add(o);//dumbness RN
+        console.log("..");
     }
-    // function addBuyOrderSimple(uint amt, uint price) public { // will likely get the lower field to put after or smt, I'll check bs notes
-    // }
 
     function checkAllowance(
         IERC20 token, // address tokenAddr,
         uint256 amountToBeSold
-    ) internal returns( bool ) {
+    ) internal view returns( bool ) {
         console.log("msg.sender to checkAllowance:", msg.sender);
         // return IERC20(tokenAddr).allowance(msg.sender, address(this)) >= amountToBeSold;
         return token.allowance(msg.sender, address(this)) >= amountToBeSold;
