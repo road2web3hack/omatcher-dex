@@ -23,8 +23,9 @@ contract MarketPair {
         uint amount;
         /////v2 would add pre-paid callBack on filling.!.
     }
-    mapping (uint => Order) private buyOrdersBook; // to be (a clever )linked-list soon
-    mapping (uint => Order) private sellOrdersBook; // to be (a clever )linked-list soon
+    // Those should each be a linked-list for scalable usage, simplistic structure now:
+    Order[] public buyOrdersBook;
+    Order[] public sellOrdersBook;
 
     constructor(address tokenAcontractAddress, address tokenBcontractAddress) {
         // some event on creation?
@@ -34,7 +35,11 @@ contract MarketPair {
     }
 
     function getTopBuy() public view returns (Order memory) { // much dummy yet
-        return buyOrdersBook[0];
+        if( buyOrdersBook.length > 0 ){
+            return buyOrdersBook[0]; // index 0 as the one with best price( for a potencial seller)
+        }else{
+            return Order(0,0);
+        }
     }
 
     // todo: 100% make this payable and grab the reserve ETH/matic/native sum for case of the order becomming unfullfillable.
@@ -43,16 +48,15 @@ contract MarketPair {
     function addBuyOrder(uint priceToBuyFor, uint amountToObtain) public { //t, I'll check bs notes
         // See if the funds to put for trade are readily available, now fail, later we can optimize 
         //  so that only in a set range around mid price there is such requirement
-        require(checkAllowance(tokenB, amountToObtain), "sender has not enough tokenB to pay with");
-        buyOrdersBook[0]=Order(priceToBuyFor, amountToObtain);// buyOrdersBook.add(o);//dumbness RN
-        console.log("..");
+        // require(checkAllowance(tokenB, amountToObtain), "sender has not enough tokenB to pay with");
+        buyOrdersBook.push( Order(priceToBuyFor, amountToObtain) );
     }
 
     function checkAllowance(
         IERC20 token, // address tokenAddr,
         uint256 amountToBeSold
     ) internal view returns( bool ) {
-        console.log("msg.sender to checkAllowance:", msg.sender);
+        // console.log("msg.sender to checkAllowance:", msg.sender);
         // return IERC20(tokenAddr).allowance(msg.sender, address(this)) >= amountToBeSold;
         return token.allowance(msg.sender, address(this)) >= amountToBeSold;
     }

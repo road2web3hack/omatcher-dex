@@ -25,6 +25,11 @@ module.exports = {
       gas: 9100000,
       gasPrice: 3000000000
     },
+    polygon: {
+      url: process.env.POLYGON_URL || "https://polygon-rpc.com",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
       accounts:

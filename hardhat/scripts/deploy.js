@@ -16,21 +16,21 @@ async function main() {
 
   let d=1;
   let sc;
-  if(d!=1){
+  if(d==0){
     // We get the contract to deploy
     const SC = await hre.ethers.getContractFactory(FirstContract);
     sc = await SC.deploy("0x326c977e6efc84e512bb9c30f76e30c160ed06fb", "0x2d7882bedcbfddce29ba99965dd3cdf7fcb10a1e") //("Link", "TST") addrses on Mumbai
     await sc.deployed();
     console.log(FirstContract+" deployed to:", sc.address, "see https://mumbai.polygonscan.com/tx/"+sc.deployTransaction.hash);
   }else{
-    sc = await hre.ethers.getContractAt(FirstContract, "0x5eB7f44573D04e7F0184Cf1a0B6cf906638c3163");
+    sc = await hre.ethers.getContractAt(FirstContract, "0x1160d703c7497D71F23128C6Fe970c73345B1df1");
   }
   // console.log(hre.etherscan.apiKey, "\n\n");//undefined, so it is very suspicious
-  // console.log(sc);
 
   // Some proto-tests to put some data in:
-  tx = await sc.addBuyOrder(20, 5000); // Comes through, but shows weird error message on the tx page( below)
+  tx = await sc.addBuyOrder(25, 5000); // Comes through, but shows weird error message on the tx page( below)
   console.log("added order as https://mumbai.polygonscan.com/tx/"+tx.hash); //tx);
+  console.log("now the best buy order is "+await sc.getTopBuy());
 }
 
 // We recommend this pattern to be able to use async/await everywhere
