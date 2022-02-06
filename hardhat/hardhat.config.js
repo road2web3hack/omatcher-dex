@@ -42,12 +42,13 @@ module.exports = {
     currency: "USD",
   },
   etherscan: {
-    apiKey: {
-        // polygon settings, see https://hardhat.org/plugins/nomiclabs-hardhat-etherscan.html#multiple-api-keys-and-alternative-block-explorers
-        // Created a key in https://polygonscan.com/myapikey , but still struggling to get `hh verify ` run correctly, problem just like https://ethereum.stackexchange.com/questions/120358/typeerror-etherscan-apikey-trim-is-not-a-function-how-add-multiple-api-keys
-        polygon: process.env.POLYGONSCAN_API_KEY,
-        polygonMumbai: process.env.POLYGONSCAN_API_KEY
-    }
+    apiKey: process.env.ETHERSCAN_API_KEY,
+    // apiKey: {
+    //     // polygon settings, see https://hardhat.org/plugins/nomiclabs-hardhat-etherscan.html#multiple-api-keys-and-alternative-block-explorers
+    //     // Created a key in https://polygonscan.com/myapikey , but still struggling to get `hh verify ` run correctly, problem just like https://ethereum.stackexchange.com/questions/120358/typeerror-etherscan-apikey-trim-is-not-a-function-how-add-multiple-api-keys
+    //     polygon: process.env.POLYGONSCAN_API_KEY,
+    //     polygonMumbai: process.env.POLYGONSCAN_API_KEY
+    // }
   },
   dependencyCompiler: {
     // Enables to call .symbol() and .decimals() in scripts.

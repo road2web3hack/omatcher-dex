@@ -59,7 +59,7 @@ contract MarketPair {
         IERC20 token, // address tokenAddr,
         uint256 amountToBeSold
     ) internal view returns( bool ) {
-        console.log("msg.sender to checkAllowance:", msg.sender);
+        // console.log("msg.sender to checkAllowance:", msg.sender);
         return token.allowance(msg.sender, address(this)) >= amountToBeSold;
     }
 }
